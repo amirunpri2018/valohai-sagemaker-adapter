@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+
+current_dir=$(dirname $(realpath $0))
+
+train_script=$(realpath $current_dir/user/$(cat $current_dir/train_script_location.txt))
+if [[ ! -f $train_script ]]
+then
+    echo "no such file: '$train_script'"
+    exit 1
+fi
+
+working_directory=$(realpath $current_dir/user/$(cat $current_dir/working_directory.txt))
+if [[ $working_directory == "" ]]
+then
+   working_directory=$(realpath $(dirname $train_script))
+fi
+
+python_path_appending=$(cat $current_dir/append_python_path.txt)
+
+
+if [[ $python_path_appending != "" ]]
+then
+    export PYTHONPATH=$PYTHONPATH:$python_path_appending
+fi
+
+cd $working_directory
+python3.6 $train_script $@
