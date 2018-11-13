@@ -22,13 +22,16 @@ class CodeContainerTest(TestCase):
         path_delegate.remove = mock.MagicMock()
         path_delegate.write_file = mock.MagicMock()
 
-        container = code_container.CodeContainer(name=self.NAME, path=self.PATH,
-                                                 files_to_copy=self.FILES_TO_COPY,
-                                                 pip_packages=self.PIP_PACKAGES,
-                                                 train_script=self.TRAIN_SCRIPT,
-                                                 working_dir=self.WORKING_DIR,
-                                                 python_path=self.PYTHON_PATH,
-                                                 path_delegate=path_delegate)
+        container = code_container.CodeContainer(
+            name=self.NAME,
+            path=self.PATH,
+            files_to_copy=self.FILES_TO_COPY,
+            pip_packages=self.PIP_PACKAGES,
+            train_script=self.TRAIN_SCRIPT,
+            working_dir=self.WORKING_DIR,
+            python_path=self.PYTHON_PATH,
+            path_delegate=path_delegate
+        )
 
         return path_delegate, container
 
@@ -73,11 +76,7 @@ class CodeContainerTest(TestCase):
 
     def test_package_doesnt_attempt_to_remove_previous_container_if_it_doesnt_exist(self):
         path_delegate, image = self.create_image()
-        def mock_exists(_path):
-            if _path == self.PATH:
-                return False
-            return True
-        path_delegate.exists = mock_exists
+        path_delegate.exists = lambda _path: False if _path == self.PATH else True
 
         image.package()
 

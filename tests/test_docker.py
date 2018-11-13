@@ -1,5 +1,5 @@
 from unittest import TestCase, mock
-from valohai_sagemaker import docker, template
+from valohai_sagemaker import docker
 import os
 
 

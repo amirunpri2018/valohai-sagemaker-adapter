@@ -7,6 +7,8 @@ EXT2 = ".ext2"
 
 
 class TransformerMock(ft.FileTransformer):
+
+
     def __init__(self):
         self.transformed_called = 0
         self.arguments = []
